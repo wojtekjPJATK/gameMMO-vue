@@ -54,5 +54,38 @@ export default {
           reject(err);
         });
     });
+  },
+
+  getWorldList(context) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get("/game/worlds")
+        .then(response => {
+          context.commit("getWorldList", response.data.worldList);
+          resolve(response.data.worldList);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+
+  getWorld(context, id) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get("/game/worlds/" + id)
+        .then(result => {
+          context.commit(
+            "getWorld",
+            result.data.World.map.sort((a, b) => {
+              return a.num - b.num;
+            })
+          );
+          resolve(result);
+        })
+        .catch(err => {
+          reject(result);
+        });
+    });
   }
 };

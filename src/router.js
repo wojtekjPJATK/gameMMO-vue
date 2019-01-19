@@ -22,6 +22,11 @@ export default new Router({
       path: "/signin",
       name: "signin",
       component: () => import("./auth/Signin.vue")
+    },
+    {
+      path: "/game",
+      name: "game",
+      component: () => import("./game/World.vue")
     }
   ]
 });

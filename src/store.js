@@ -6,11 +6,19 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    session: localStorage.getItem("session")
+    session: localStorage.getItem("session"),
+    worlds: null,
+    world: null
   },
   getters: {
     session(state) {
       return state.session;
+    },
+    getWorlds(state) {
+      return state.worlds;
+    },
+    getWorld(state) {
+      return state.world;
     }
   },
   mutations: {
@@ -19,6 +27,12 @@ export default new Vuex.Store({
     },
     deleteSession(state) {
       state.session = null;
+    },
+    getWorldList(state, data) {
+      state.worlds = data;
+    },
+    getWorld(state, data) {
+      state.world = data;
     }
   },
   actions: {
@@ -30,6 +44,12 @@ export default new Vuex.Store({
     },
     signin(context, data) {
       return api.signin(context, data);
+    },
+    getWorldList(context) {
+      return api.getWorldList(context);
+    },
+    getWorld(context, data) {
+      return api.getWorld(context, data);
     }
   }
 });
