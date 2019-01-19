@@ -11,7 +11,16 @@
           <v-list-tile v-for="world in worlds" :key="world.id" @click="displayWorld(world.id)">
             <v-list-tile-title v-text="world.name"></v-list-tile-title>
           </v-list-tile>
+          <v-list-tile>
+            <v-list-tile-avatar>
+              <v-icon @click="createWorld()">fas fa-plus</v-icon>
+            </v-list-tile-avatar>
+            <v-list-tile-title>
+              <v-text-field height="20px" v-model="name" placeholder="Name"></v-text-field>
+            </v-list-tile-title>
+          </v-list-tile>
         </v-list>
+        <p class="red--text">{{ error }}</p>
       </v-flex>
       <v-flex xs5>
         <v-layout row wrap>
@@ -31,13 +40,13 @@
               height="155px"
               width="155px"
               color="black"
-              @click="tileAction(tile.id)"
+              @click="tileAction(tile)"
             >
               <v-layout justify-center align-center>
                 <v-icon v-if="tile.status == 'City'" size="120px" color="grey">fas fa-ring</v-icon>
               </v-layout>
             </v-card>
-            <v-card v-else height="155px" width="155px" color="black" @click="tileAction(tile.id)"></v-card>
+            <v-card v-else height="155px" width="155px" color="black" @click="tileAction(tile)"></v-card>
           </v-flex>
         </v-layout>
       </v-flex>
@@ -49,7 +58,9 @@
 export default {
   data() {
     return {
-      load: true
+      load: true,
+      name: "",
+      error: ""
     };
   },
   mounted() {
@@ -86,8 +97,19 @@ export default {
           this.error = err.response.data;
         });
     },
-    tileAction(id) {
-      alert(id);
+    tileAction(tile) {
+      console.log(tile);
+    },
+    createWorld() {
+      this.$store
+        .dispatch("createWorld", this.name)
+        .then(result => {
+          console.log(result);
+          this.$store.commit("createWorld", result.data.newWorld);
+        })
+        .catch(err => {
+          this.error = err.response.data.msg;
+        });
     }
   },
   watch: {

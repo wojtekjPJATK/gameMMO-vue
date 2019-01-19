@@ -7,7 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     session: localStorage.getItem("session"),
-    worlds: null,
+    worlds: [],
     world: null
   },
   getters: {
@@ -19,6 +19,9 @@ export default new Vuex.Store({
     },
     getWorld(state) {
       return state.world;
+    },
+    createWorld(state, world) {
+      state.worlds.push(world);
     }
   },
   mutations: {
@@ -50,6 +53,9 @@ export default new Vuex.Store({
     },
     getWorld(context, data) {
       return api.getWorld(context, data);
+    },
+    createWorld(context, data) {
+      return api.createWorld(context, data);
     }
   }
 });

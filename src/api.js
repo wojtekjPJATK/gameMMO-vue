@@ -18,8 +18,6 @@ export default {
           resolve(response);
         })
         .catch(err => {
-          console.log(err);
-          console.log(err.data);
           reject(err);
         });
     });
@@ -84,7 +82,21 @@ export default {
           resolve(result);
         })
         .catch(err => {
-          reject(result);
+          reject(err);
+        });
+    });
+  },
+
+  createWorld(context, name) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post("/game/create/" + name)
+        .then(result => {
+          context.commit("createWorld", name);
+          resolve(result);
+        })
+        .catch(err => {
+          reject(err);
         });
     });
   }

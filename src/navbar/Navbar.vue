@@ -35,6 +35,7 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("logout").then(response => {
+        this.$store.commit("deleteSession");
         this.$router.push({ name: "signin" });
       });
     }
