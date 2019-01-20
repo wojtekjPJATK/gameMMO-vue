@@ -46,8 +46,8 @@
 <script>
 export default {
   props: {
-    base: {
-      type: Object,
+    id: {
+      type: String,
       default: null
     }
   },
@@ -113,18 +113,25 @@ export default {
     };
   },
   mounted() {
-    if (!this.base.sejf) this.$router.go(-1);
-    this.buildings[0].level = this.base.sklad;
-    this.buildings[1].level = this.base.sejf;
-    this.buildings[2].level = this.base.bunkier;
-    this.buildings[3].level = this.base.spizarnia;
-    this.buildings[4].level = this.base.tartak;
+    this.id = "5922117065375744";
+    return this.$store
+      .dispatch("getPlayer", this.id)
+      .then(result => {
+        console.log(result);
+        this.buildings[0].level = result.data.player.sklad;
+        this.buildings[1].level = result.data.player.sejf;
+        this.buildings[2].level = result.data.player.bunkier;
+        this.buildings[3].level = result.data.player.spizarnia;
+        this.buildings[4].level = result.data.player.tartak;
 
-    this.resources[0].amount = this.base.deski;
-    this.resources[1].amount = this.base.kapsle;
-    this.resources[2].amount = this.base.naboje;
-    this.resources[3].amount = this.base.jagody;
+        this.resources[0].amount = result.data.player.deski;
+        this.resources[1].amount = result.data.player.kapsle;
+        this.resources[2].amount = result.data.player.naboje;
+        this.resources[3].amount = result.data.player.jagody;
+      })
+      .catch(err => {});
   },
+
   methods: {
     upgrade(name) {
       console.log("upgrade " + name);

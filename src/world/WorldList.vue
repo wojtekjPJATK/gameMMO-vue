@@ -105,12 +105,19 @@ export default {
       this.close();
     },
 
-    join(id) {
-      console.log(id);
+    join(worldID) {
+      this.$store
+        .dispatch("joinWorld", worldID)
+        .then(result => {
+          this.$router.push({ name: "map", params: { id: worldID } });
+        })
+        .catch(err => {
+          this.status = err.response.data.msg;
+        });
     },
 
-    map(id) {
-      console.log(id);
+    map(worldID) {
+      this.$router.push({ name: "map", params: { id: worldID } });
     }
   }
 };
