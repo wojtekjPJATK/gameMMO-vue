@@ -56,6 +56,12 @@ export default new Vuex.Store({
     },
     createWorld(context, data) {
       return api.createWorld(context, data);
+    },
+    getPlayer(context, data) {
+      return api.getPlayer(context, data);
+    },
+    joinWorld(context, data) {
+      return api.joinWorld(context, data);
     }
   }
 });

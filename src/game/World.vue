@@ -16,10 +16,11 @@
               <v-icon @click="createWorld()">fas fa-plus</v-icon>
             </v-list-tile-avatar>
             <v-list-tile-title>
-              <v-text-field height="20px" v-model="name" placeholder="Name"></v-text-field>
+              <v-text-field v-model="name" placeholder="Name"></v-text-field>
             </v-list-tile-title>
           </v-list-tile>
         </v-list>
+        <v-btn v-if="join" round large @click="joinWorld(world_id)">Join this world</v-btn>
         <p class="red--text">{{ error }}</p>
       </v-flex>
       <v-flex xs5>
@@ -34,7 +35,7 @@
           >
             <v-progress-circular :size="70" :width="7" color="white" indeterminate></v-progress-circular>
           </v-dialog>
-          <v-flex v-for="tile in map" style="width: 20%" :key="tile.num">
+          <v-flex v-for="tile in this.map" style="width: 20%" :key="tile.num">
             <v-card
               v-if="tile.status != 'free'"
               height="155px"
@@ -60,21 +61,36 @@ export default {
     return {
       load: true,
       name: "",
-      error: ""
+      error: "",
+      player_id: "",
+      base: "",
+      join: false,
+      world_id: "sdf"
     };
   },
   mounted() {
+    let id;
     this.$store
       .dispatch("getWorldList")
       .then(result => {
-        let id = result[0].id;
+        id = result[0].id;
         return this.$store.dispatch("getWorld", id);
       })
       .then(result => {
+        this.world_id = result.data.World.id;
         this.map = result.data.World.map;
         this.load = false;
+        return this.$store.dispatch("getPlayer", id);
       })
-      .catch(err => {});
+      .then(result => {
+        this.base = result.data.player;
+        if (result) this.player_id = result.data.player.id;
+        this.join = false;
+      })
+      .catch(err => {
+        if (err.response.status == 406) this.join = true;
+        else this.error = err.response.data;
+      });
   },
   computed: {
     worlds() {
@@ -91,13 +107,31 @@ export default {
         .dispatch("getWorld", id)
         .then(result => {
           this.load = false;
+          this.world_id = result.data.World.id;
+          return this.$store.dispatch("getPlayer", id);
+        })
+        .then(result => {
+          this.player_id = result.data.player.id;
+          this.base = result.data.player;
+          this.join = false;
         })
         .catch(err => {
-          this.error = err.response.data;
+          if (err.response.status == 406) this.join = true;
+          else this.error = err.response.data;
         });
     },
     tileAction(tile) {
-      console.log(tile);
+      if (tile.status == "free") {
+        // free spot
+      } else if (tile.status == "City") {
+        if (tile.owner == this.player_id) {
+          this.$router.push({ name: "base", params: { base: this.base } });
+        } else {
+          // attack
+        }
+      } else {
+        // occupied
+      }
     },
     createWorld() {
       this.$store
@@ -108,6 +142,14 @@ export default {
         .catch(err => {
           this.error = err.response.data.msg;
         });
+    },
+    joinWorld(id) {
+      this.$store
+        .dispatch("joinWorld", id)
+        .then(result => {
+          this.base = result.newPlayer;
+        })
+        .catch(err => {});
     }
   },
   watch: {

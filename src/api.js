@@ -99,5 +99,31 @@ export default {
           reject(err);
         });
     });
+  },
+
+  getPlayer(context, id) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get("/game/player/" + id)
+        .then(result => {
+          resolve(result);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+
+  joinWorld(context, id) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post("/game/" + id + "/join")
+        .then(result => {
+          resolve(result);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
   }
 };

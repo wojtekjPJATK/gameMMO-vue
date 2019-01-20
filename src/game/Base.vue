@@ -45,6 +45,12 @@
 
 <script>
 export default {
+  props: {
+    base: {
+      type: Object,
+      default: null
+    }
+  },
   data() {
     return {
       loading: false,
@@ -83,28 +89,41 @@ export default {
           name: "Wood",
           url:
             "https://storage.googleapis.com/arc-mmo-game/resources/deski.png",
-          amount: "1"
+          amount: ""
         },
         {
           name: "Caps",
           url:
             "https://storage.googleapis.com/arc-mmo-game/resources/kapsle.png",
-          amount: "1"
+          amount: ""
         },
         {
           name: "Ammo",
           url:
             "https://storage.googleapis.com/arc-mmo-game/resources/naboje.png",
-          amount: "1"
+          amount: ""
         },
         {
           name: "Berries",
           url:
             "https://storage.googleapis.com/arc-mmo-game/resources/zmutowanejagody.png",
-          amount: "1"
+          amount: ""
         }
       ]
     };
+  },
+  mounted() {
+    if (!this.base.sejf) this.$router.go(-1);
+    this.buildings[0].level = this.base.sklad;
+    this.buildings[1].level = this.base.sejf;
+    this.buildings[2].level = this.base.bunkier;
+    this.buildings[3].level = this.base.spizarnia;
+    this.buildings[4].level = this.base.tartak;
+
+    this.resources[0].amount = this.base.deski;
+    this.resources[1].amount = this.base.kapsle;
+    this.resources[2].amount = this.base.naboje;
+    this.resources[3].amount = this.base.jagody;
   },
   methods: {
     upgrade(name) {

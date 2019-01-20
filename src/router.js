@@ -29,8 +29,9 @@ export default new Router({
       component: () => import("./game/World.vue")
     },
     {
-      path: "/base",
+      path: "/base/:base",
       name: "base",
+      props: true,
       component: () => import("./game/Base.vue")
     }
   ]
