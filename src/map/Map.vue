@@ -3,6 +3,12 @@
     <v-layout>
       <v-flex xs6 offset-xs3>
         <v-layout row wrap>
+          <v-flex xs12>
+            <v-layout row wrap>
+              <v-icon large @click="$router.go(-1)">fas fa-chevron-left</v-icon>
+              <h2 ml-2>Back to World List</h2>
+            </v-layout>
+          </v-flex>
           <v-flex v-for="tile in this.map" style="width: 20%" :key="tile.num" my-3>
             <v-card
               v-if="tile.status != 'free'"
