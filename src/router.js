@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
+import store from "./store.js";
 
 Vue.use(Router);
 
@@ -26,20 +27,29 @@ const router = new Router({
     {
       path: "/game",
       name: "game",
-      component: () => import("./game/World.vue")
+      meta: { requiresAuth: true },
+      component: () => import("./world/WorldList.vue")
     },
     {
       path: "/base/:base",
       name: "base",
       props: true,
+      meta: { requiresAuth: true },
       component: () => import("./game/Base.vue")
+    },
+    {
+      path: "/map/:id",
+      name: "map",
+      props: true,
+      meta: { requiresAuth: true },
+      component: () => import("./map/Map.vue")
     }
   ]
 });
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!store.getters.loggedIn) {
+    if (!store.getters.session) {
       next({
         path: "/signin",
         query: {
