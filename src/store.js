@@ -19,9 +19,6 @@ export default new Vuex.Store({
     },
     getWorld(state) {
       return state.world;
-    },
-    createWorld(state, world) {
-      state.worlds.push(world);
     }
   },
   mutations: {
@@ -36,6 +33,9 @@ export default new Vuex.Store({
     },
     getWorld(state, data) {
       state.world = data;
+    },
+    createWorld(state, world) {
+      state.worlds.push(world);
     }
   },
   actions: {

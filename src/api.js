@@ -92,7 +92,7 @@ export default {
       axios
         .post("/game/create/" + name)
         .then(result => {
-          context.commit("createWorld", name);
+          context.commit("createWorld", result.data.newWorld);
           resolve(result);
         })
         .catch(err => {

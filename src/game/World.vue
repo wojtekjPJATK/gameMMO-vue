@@ -90,7 +90,6 @@ export default {
       this.$store
         .dispatch("getWorld", id)
         .then(result => {
-          this.$store.commit("getWorld", result.data.World.map);
           this.load = false;
         })
         .catch(err => {
@@ -104,8 +103,7 @@ export default {
       this.$store
         .dispatch("createWorld", this.name)
         .then(result => {
-          console.log(result);
-          this.$store.commit("createWorld", result.data.newWorld);
+          this.name = "";
         })
         .catch(err => {
           this.error = err.response.data.msg;
