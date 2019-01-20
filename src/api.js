@@ -2,9 +2,6 @@ import axios from "axios";
 
 axios.defaults.baseURL =
   "https://test-dot-solwit-pjatk-arc-2018-gr4.appspot.com";
-axios.defaults.headers = {
-  Authorization: localStorage.getItem("session") || ""
-};
 
 export default {
   join(context, data) {
@@ -13,6 +10,9 @@ export default {
         .post("/join", data)
         .then(response => {
           let session_id = response.data.session;
+          axios.defaults.headers = {
+            Authorization: session_id
+          };
           localStorage.setItem("session", session_id);
           context.commit("session", session_id);
           resolve(response);
@@ -44,6 +44,9 @@ export default {
         .post("/signin", data)
         .then(response => {
           let session_id = response.data.session;
+          axios.defaults.headers = {
+            Authorization: session_id
+          };
           localStorage.setItem("session", session_id);
           context.commit("session", session_id);
           resolve(response);
