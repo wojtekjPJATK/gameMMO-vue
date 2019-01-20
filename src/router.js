@@ -27,6 +27,11 @@ export default new Router({
       path: "/game",
       name: "game",
       component: () => import("./game/World.vue")
+    },
+    {
+      path: "/base",
+      name: "base",
+      component: () => import("./game/Base.vue")
     }
   ]
 });
