@@ -26,10 +26,11 @@ export default {
   logout(context) {
     return new Promise((resolve, reject) => {
       axios
-        .delete("/session/" + this.state.id)
+        .delete("/session/")
         .then(response => {
           localStorage.removeItem("session");
           context.commit("deleteSession");
+          axios.defaults.headers = {};
           resolve(response);
         })
         .catch(err => {
