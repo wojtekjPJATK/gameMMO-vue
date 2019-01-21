@@ -40,6 +40,7 @@
           </v-btn>
         </div>
       </v-flex>
+      {{ actionStatus }}
     </v-layout>
   </v-container>
 </template>
@@ -55,6 +56,7 @@ export default {
   data() {
     return {
       loading: false,
+      actionStatus: "",
       buildings: [
         {
           name: "Armory",
@@ -123,7 +125,6 @@ export default {
     return this.$store
       .dispatch("getPlayer", this.id)
       .then(result => {
-        console.log(result);
         this.buildings[0].level = result.data.player.sklad;
         this.buildings[1].level = result.data.player.sejf;
         this.buildings[2].level = result.data.player.bunkier;
@@ -143,8 +144,6 @@ export default {
         this.resources[4].amount = result.data.player.actionPoints;
 
         this.playerID = result.data.player.id;
-
-        console.log(this.buildings);
       })
       .catch(err => {
         console.log(err);
@@ -153,10 +152,21 @@ export default {
 
   methods: {
     upgrade(building) {
-      this.$store.dispatch("upgradeBuilding", {
-        building: building,
-        player: this.playerID
-      });
+      this.loading = true;
+      this.$store
+        .dispatch("upgradeBuilding", {
+          building: building,
+          player: this.playerID
+        })
+        .then(result => {
+          console.log(result);
+          console.log("ok");
+          this.loading = false;
+        })
+        .catch(err => {
+          this.actionStatus = err.response.data.fail;
+          this.loading = false;
+        });
     }
   }
 };

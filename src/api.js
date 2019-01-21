@@ -140,10 +140,10 @@ export default {
       axios
         .post("/game/upgrade/" + data.player + "/" + data.building.id + "/")
         .then(result => {
-          console.log(result);
+          resolve(result);
         })
         .catch(err => {
-          console.log(err);
+          reject(err);
         });
     });
   },
@@ -153,10 +153,10 @@ export default {
       axios
         .post("/game/player/world/attack", data)
         .then(result => {
-          console.log(result);
+          resolve(result);
         })
         .catch(err => {
-          console.log(err);
+          reject(err);
         });
     });
   }
