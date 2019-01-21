@@ -7,8 +7,7 @@
           <h2 ml-2>Back to world map</h2>
         </v-layout>
       </v-flex>
-      <v-spacer></v-spacer>
-      <v-flex v-for="resource in this.resources" :key="resource.name" xs3>
+      <v-flex v-for="resource in this.resources" :key="resource.name" xs2>
         <v-card>
           <v-layout align-center justify-center row fill-height>
             <v-flex xs4>
@@ -23,6 +22,8 @@
           </v-layout>
         </v-card>
       </v-flex>
+      <v-flex xs2></v-flex>
+
       <v-flex v-for="building in this.buildings" :key="building.name">
         <v-img class="building" :src="building.url"></v-img>
         <h2>{{ building.name }}</h2>
@@ -108,6 +109,12 @@ export default {
           url:
             "https://storage.googleapis.com/arc-mmo-game/resources/zmutowanejagody.png",
           amount: ""
+        },
+        {
+          name: "Action Points",
+          url:
+            "https://storage.googleapis.com/arc-mmo-game/resources/actions.png",
+          amount: ""
         }
       ]
     };
@@ -133,6 +140,7 @@ export default {
         this.resources[1].amount = result.data.player.kapsle;
         this.resources[2].amount = result.data.player.naboje;
         this.resources[3].amount = result.data.player.jagody;
+        this.resources[4].amount = result.data.player.actionPoints;
 
         this.playerID = result.data.player.id;
 
