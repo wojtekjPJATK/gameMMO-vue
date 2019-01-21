@@ -60,22 +60,21 @@ export default {
   methods: {
     tileAction(tile) {
       console.log(tile);
-      if (tile.status == "free") {
-        // free spot
-      } else if (tile.status == "City") {
-        if (tile.owner == this.bunkerID) {
-          this.$router.push({ name: "base", params: { base: this.bunkerID } });
-        } else {
-          console.log("not yours");
-          // attack
-        }
+      if (this.myCity(tile)) {
+        this.$router.push({
+          name: "base",
+          params: { id: this.id.toString() }
+        });
       } else {
-        // occupied
+        this.$store.dispatch("attack", {
+          playerid: this.bunkerID,
+          squareid: tile.id,
+          bullets: 10
+        });
+        // attack
       }
     },
     myCity(tile) {
-      console.log(tile);
-      console.log(this.bunkerID);
       return tile.owner == this.bunkerID && tile.status == "City";
     }
   }

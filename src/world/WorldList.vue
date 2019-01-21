@@ -109,7 +109,10 @@ export default {
       this.$store
         .dispatch("joinWorld", worldID)
         .then(result => {
-          this.$router.push({ name: "map", params: { id: worldID } });
+          this.$router.push({
+            name: "map",
+            params: { id: worldID.toString() }
+          });
         })
         .catch(err => {
           this.status = err.response.data.msg;
@@ -117,7 +120,7 @@ export default {
     },
 
     map(worldID) {
-      this.$router.push({ name: "map", params: { id: worldID } });
+      this.$router.push({ name: "map", params: { id: worldID.toString() } });
     }
   }
 };

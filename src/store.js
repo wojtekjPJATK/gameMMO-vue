@@ -62,6 +62,12 @@ export default new Vuex.Store({
     },
     joinWorld(context, data) {
       return api.joinWorld(context, data);
+    },
+    upgradeBuilding(context, data) {
+      return api.upgradeBuilding(context, data);
+    },
+    attack(context, data) {
+      return api.attack(context, data);
     }
   }
 });

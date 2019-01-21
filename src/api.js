@@ -133,5 +133,31 @@ export default {
           reject(err);
         });
     });
+  },
+
+  upgradeBuilding(context, data) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post("/game/upgrade/" + data.player + "/" + data.building.id + "/")
+        .then(result => {
+          console.log(result);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    });
+  },
+
+  attack(context, data) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post("/game/player/world/attack", data)
+        .then(result => {
+          console.log(result);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    });
   }
 };

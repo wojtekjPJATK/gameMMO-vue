@@ -31,7 +31,7 @@ const router = new Router({
       component: () => import("./world/WorldList.vue")
     },
     {
-      path: "/base/:base",
+      path: "/base/:id",
       name: "base",
       props: true,
       meta: { requiresAuth: true },

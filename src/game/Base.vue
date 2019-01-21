@@ -33,7 +33,7 @@
             :disabled="loading"
             color="grey"
             class="white--text"
-            @click="upgrade(building.name)"
+            @click="upgrade(building)"
           >Upgrade
             <v-icon right dark>fas fa-angle-double-up</v-icon>
           </v-btn>
@@ -113,7 +113,6 @@ export default {
     };
   },
   mounted() {
-    this.id = "5922117065375744";
     return this.$store
       .dispatch("getPlayer", this.id)
       .then(result => {
@@ -124,17 +123,32 @@ export default {
         this.buildings[3].level = result.data.player.spizarnia;
         this.buildings[4].level = result.data.player.tartak;
 
+        this.buildings[0].id = result.data.player.skladId;
+        this.buildings[1].id = result.data.player.sejfId;
+        this.buildings[2].id = result.data.player.bunkierId;
+        this.buildings[3].id = result.data.player.spizarniaId;
+        this.buildings[4].id = result.data.player.tartakId;
+
         this.resources[0].amount = result.data.player.deski;
         this.resources[1].amount = result.data.player.kapsle;
         this.resources[2].amount = result.data.player.naboje;
         this.resources[3].amount = result.data.player.jagody;
+
+        this.playerID = result.data.player.id;
+
+        console.log(this.buildings);
       })
-      .catch(err => {});
+      .catch(err => {
+        console.log(err);
+      });
   },
 
   methods: {
-    upgrade(name) {
-      console.log("upgrade " + name);
+    upgrade(building) {
+      this.$store.dispatch("upgradeBuilding", {
+        building: building,
+        player: this.playerID
+      });
     }
   }
 };
