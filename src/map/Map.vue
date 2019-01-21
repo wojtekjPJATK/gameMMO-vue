@@ -6,22 +6,17 @@
           <v-flex xs12>
             <v-layout row wrap>
               <v-icon large @click="$router.go(-1)">fas fa-chevron-left</v-icon>
-              <h2 ml-2>Back to World List</h2>
+              <h2>Back to World List</h2>
             </v-layout>
           </v-flex>
-          <v-flex v-for="tile in this.map" style="width: 20%" :key="tile.num" my-3>
-            <v-card
-              v-if="tile.status != 'free'"
-              height="120px"
-              width="150px"
-              color="grey"
-              @click="tileAction(tile)"
-            >
+          <v-flex v-for="tile in this.map" style="width: 20%" :key="tile.num">
+            <v-card v-if="tile.status != 'free'" color="grey" @click="tileAction(tile)">
               <v-layout justify-center align-center>
-                <v-icon v-if="tile.status == 'City'" size="120px" color="white">fas fa-ring</v-icon>
+                <v-icon v-if="myCity(tile)" size="150px" color="amber">fas fa-ring</v-icon>
+                <v-icon v-else size="150px" color="white">fas fa-ring</v-icon>
               </v-layout>
             </v-card>
-            <v-card v-else height="120px" width="150px" color="grey" @click="tileAction(tile)"></v-card>
+            <v-card v-else height="150px" width="100%" color="grey" @click="tileAction(tile)"></v-card>
           </v-flex>
         </v-layout>
       </v-flex>
@@ -42,7 +37,6 @@ export default {
       load: true,
       name: "",
       error: "",
-      player_id: "",
       base: "",
       join: false,
       bunkerID: null
@@ -78,6 +72,11 @@ export default {
       } else {
         // occupied
       }
+    },
+    myCity(tile) {
+      console.log(tile);
+      console.log(this.bunkerID);
+      return tile.owner == this.bunkerID && tile.status == "City";
     }
   }
 };

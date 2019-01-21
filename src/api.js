@@ -2,6 +2,10 @@ import axios from "axios";
 
 axios.defaults.baseURL =
   "https://test-dot-solwit-pjatk-arc-2018-gr4.appspot.com";
+if (localStorage.getItem("session"))
+  axios.defaults.headers = {
+    Authorization: localStorage.getItem("session")
+  };
 
 export default {
   join(context, data) {
