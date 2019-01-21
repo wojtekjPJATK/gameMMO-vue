@@ -1,6 +1,29 @@
 <template>
   <v-container fluid fill-height>
     <v-layout>
+      <v-dialog v-model="dialog" persistent max-width="400px">
+        <v-card>
+          <v-card-title>
+            <span class="headline">Attack</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12>
+                  <h1>How many bullets would you like to use for the attack?</h1>
+                  <v-text-field label="Bullets" required v-model="bullets" mask="#######"></v-text-field>
+                </v-flex>
+              </v-layout>
+            </v-container>
+            <small>{{ attackError }}</small>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" flat @click="dialog = false">Cancel</v-btn>
+            <v-btn color="blue darken-1" flat @click="attack()">Attack</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       <v-flex xs6 offset-xs3>
         <v-layout row wrap>
           <v-flex xs12>
@@ -39,7 +62,10 @@ export default {
       error: "",
       base: "",
       join: false,
-      bunkerID: null
+      bunkerID: null,
+      dialog: false,
+      bullets: "",
+      attackError: ""
     };
   },
   mounted() {
@@ -59,23 +85,37 @@ export default {
   },
   methods: {
     tileAction(tile) {
-      console.log(tile);
       if (this.myCity(tile)) {
         this.$router.push({
           name: "base",
           params: { id: this.id.toString() }
         });
       } else {
-        this.$store.dispatch("attack", {
-          playerid: this.bunkerID,
-          squareid: tile.id,
-          bullets: 10
-        });
-        // attack
+        this.dialog = true;
+        this.currentTile = tile;
       }
     },
     myCity(tile) {
       return tile.owner == this.bunkerID && tile.status == "City";
+    },
+    attack() {
+      this.$store
+        .dispatch("attack", {
+          playerid: this.bunkerID,
+          squareid: this.currentTile.id,
+          bullets: this.bullets
+        })
+        .then(result => {
+          console.log(result);
+          this.dialog = false;
+        })
+        .catch(err => {
+          this.attackError =
+            err.response.data.msg +
+            ". You have only " +
+            err.response.data.bullets;
+          console.log(err);
+        });
     }
   }
 };
