@@ -101,6 +101,7 @@ export default {
   },
   methods: {
     tileAction(tile) {
+      console.log(tile);
       if (!this.bunkerID) return;
       if (this.myCity(tile)) {
         this.$router.push({
@@ -109,12 +110,14 @@ export default {
         });
       } else {
         if (this.myTile(tile)) return;
-        if (tile.status == "free")
+        if (tile.status == "free") {
           this.$store.dispatch("attack", {
-            playerId: this.bunkerID,
-            squareid: this.tile.id,
+            playerid: this.bunkerID,
+            squareid: tile.id,
             bullets: 0
           });
+          return;
+        }
         this.dialog = true;
         this.currentTile = tile;
       }
@@ -130,17 +133,14 @@ export default {
         .dispatch("attack", {
           playerid: this.bunkerID,
           squareid: this.currentTile.id,
-          bullets: this.bullets
+          bullets: parseInt(this.bullets)
         })
         .then(result => {
           console.log(result);
           this.dialog = false;
         })
         .catch(err => {
-          this.attackError =
-            err.response.data.msg +
-            ". You have only " +
-            err.response.data.bullets;
+          this.attackError = err.response.data.msg;
           console.log(err);
         });
     }
