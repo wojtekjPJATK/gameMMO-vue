@@ -3,7 +3,7 @@
     <v-toolbar app class="px-4">
       <router-link to="/">
         <v-toolbar-title to="/">
-          <span>Gra</span>
+          <span>Wasteland Domination</span>
         </v-toolbar-title>
       </router-link>
       <v-spacer></v-spacer>

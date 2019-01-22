@@ -33,13 +33,27 @@
             </v-layout>
           </v-flex>
           <v-flex v-for="tile in this.map" style="width: 20%" :key="tile.num">
-            <v-card v-if="tile.status != 'free'" color="grey" @click="tileAction(tile)">
+            <v-card
+              v-if="myTile(tile)"
+              height="150px"
+              width="100%"
+              color="amber"
+              @click="tileAction(tile)"
+            >
               <v-layout justify-center align-center>
-                <v-icon v-if="myCity(tile)" size="150px" color="amber">fas fa-ring</v-icon>
-                <v-icon v-else size="150px" color="white">fas fa-ring</v-icon>
+                <v-icon v-if="myCity(tile)" size="150px" color="black">fas fa-ring</v-icon>
               </v-layout>
             </v-card>
-            <v-card v-else height="150px" width="100%" color="grey" @click="tileAction(tile)"></v-card>
+            <v-card
+              v-else-if="tile.status == 'free'"
+              height="150px"
+              width="100%"
+              color="green"
+              @click="tileAction(tile)"
+            ></v-card>
+            <v-card v-else height="150px" width="100%" color="red" @click="tileAction(tile)">
+              <v-icon v-if="tile.status == 'City'" size="150px" color="black">fas fa-ring</v-icon>
+            </v-card>
           </v-flex>
         </v-layout>
       </v-flex>
@@ -85,6 +99,7 @@ export default {
   },
   methods: {
     tileAction(tile) {
+      if (!this.bunkerID) return;
       if (this.myCity(tile)) {
         this.$router.push({
           name: "base",
@@ -97,6 +112,9 @@ export default {
     },
     myCity(tile) {
       return tile.owner == this.bunkerID && tile.status == "City";
+    },
+    myTile(tile) {
+      return tile.owner == this.bunkerID;
     },
     attack() {
       this.$store
