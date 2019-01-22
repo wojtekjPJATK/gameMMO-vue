@@ -57,6 +57,7 @@
           </v-flex>
         </v-layout>
       </v-flex>
+      {{ status }}
     </v-layout>
   </v-container>
 </template>
@@ -79,7 +80,8 @@ export default {
       bunkerID: null,
       dialog: false,
       bullets: "",
-      attackError: ""
+      attackError: "",
+      status: ""
     };
   },
   mounted() {
@@ -106,6 +108,13 @@ export default {
           params: { id: this.id.toString() }
         });
       } else {
+        if (this.myTile(tile)) return;
+        if (tile.status == "free")
+          this.$store.dispatch("attack", {
+            playerId: this.bunkerID,
+            squareid: this.tile.id,
+            bullets: 0
+          });
         this.dialog = true;
         this.currentTile = tile;
       }
