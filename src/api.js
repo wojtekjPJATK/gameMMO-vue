@@ -30,7 +30,7 @@ export default {
   logout(context) {
     return new Promise((resolve, reject) => {
       axios
-        .delete("/session/")
+        .delete("/session")
         .then(response => {
           localStorage.removeItem("session");
           context.commit("deleteSession");
