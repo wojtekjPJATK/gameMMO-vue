@@ -68,7 +68,7 @@
           </v-flex>
         </v-layout>
       </v-flex>
-      {{ status }}
+      <span>{{ status }}</span>
     </v-layout>
   </v-container>
 </template>
@@ -84,7 +84,6 @@ export default {
   data() {
     return {
       load: true,
-      name: "",
       error: "",
       base: "",
       join: false,
@@ -142,6 +141,7 @@ export default {
         })
         .then(result => {
           this.dialog = false;
+          this.status = result.data.msg;
         })
         .catch(err => {
           this.attackError = err.response.data.msg;

@@ -16,23 +16,7 @@
           <h2 ml-2>Back to world map</h2>
         </v-layout>
       </v-flex>
-      <v-flex v-for="resource in this.resources" :key="resource.name" xs2>
-        <v-card>
-          <v-layout align-center justify-center row fill-height>
-            <v-flex xs4>
-              <v-img class="resource" :src="resource.url"></v-img>
-            </v-flex>
-            <v-flex xs4>
-              <span>{{resource.name}}</span>
-            </v-flex>
-            <v-flex xs4>
-              <span>{{resource.amount}}</span>
-            </v-flex>
-          </v-layout>
-        </v-card>
-      </v-flex>
-      <v-flex xs2></v-flex>
-
+      <Resources/>
       <v-flex v-for="building in this.buildings" :key="building.name">
         <v-img class="building" :src="building.url"></v-img>
         <h2>{{ building.name }}</h2>
@@ -55,7 +39,8 @@
         <p v-bind:style="{color: statusColor}">{{ actionStatus }}</p>
         <h1>Actions made this turn:</h1>
         <div v-for="action in this.raports" :key="action.id">{{ action }}</div>
-        {{ this.fights }}
+        <h2>{{ this.fights.title }}</h2>
+        <div v-for="fight in this.fights.report" :key="fight">{{ fight }}</div>
       </v-flex>
     </v-layout>
   </v-container>
@@ -63,8 +48,10 @@
 
 <script>
 import bunkerJSON from "./bunker.js";
+import Resources from "./Resources.vue";
 
 export default {
+  components: { Resources },
   props: {
     id: {
       type: String,
@@ -77,7 +64,7 @@ export default {
       actionStatus: "",
       statusColor: "green",
       raports: [],
-      fights: "",
+      fights: { title: "", report: "" },
       buildings: bunkerJSON.buildings,
       resources: bunkerJSON.resources
     };
@@ -93,8 +80,10 @@ export default {
       })
       .then(result => {
         this.raports = result.data.pendingRaports;
-        if (result.data.toRaports.length)
-          this.fights = "<h2>Battle report: </h2>" + result.data.toRaports;
+        if (result.data.toRaports.length) {
+          this.fights.title = "Battle report: ";
+          this.fights.report = result.data.toRaports;
+        }
       })
       .catch(err => {
         console.log(err);
@@ -116,7 +105,6 @@ export default {
           this.actionStatus = building.name + " will be upgraded next turn!";
         })
         .catch(err => {
-          console.log(err);
           this.statusColor = "red";
           this.actionStatus = "Not enough resources!";
           this.loading = false;
@@ -178,6 +166,7 @@ export default {
       this.resources[2].amount = data.player.naboje;
       this.resources[3].amount = data.player.jagody;
       this.resources[4].amount = data.player.actionPoints;
+      this.$store.commit("setResources", this.resources);
 
       this.loading = false;
     }

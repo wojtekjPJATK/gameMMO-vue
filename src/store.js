@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     session: localStorage.getItem("session"),
     worlds: [],
+    resources: [],
     world: null
   },
   getters: {
@@ -19,6 +20,9 @@ export default new Vuex.Store({
     },
     getWorld(state) {
       return state.world;
+    },
+    getResources(state) {
+      return state.resources;
     }
   },
   mutations: {
@@ -36,6 +40,9 @@ export default new Vuex.Store({
     },
     createWorld(state, world) {
       state.worlds.push(world);
+    },
+    setResources(state, resources) {
+      state.resources = resources;
     }
   },
   actions: {
