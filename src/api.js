@@ -179,5 +179,18 @@ export default {
           reject(err);
         });
     });
+  },
+
+  raport(context, data) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get("/game/" + data + "/generate/raports")
+        .then(result => {
+          resolve(result);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
   }
 };

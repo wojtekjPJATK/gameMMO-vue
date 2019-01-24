@@ -24,6 +24,15 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <v-dialog v-model="loading" hide-overlay persistent width="100">
+        <v-layout>
+          <v-flex class="text-xs-center">
+            <v-card color="black" width="100" height="100">
+              <v-progress-circular :size="70" :width="7" color="white" indeterminate></v-progress-circular>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-dialog>
       <v-flex xs6 offset-xs3>
         <v-layout row wrap>
           <v-flex xs12>
@@ -81,14 +90,17 @@ export default {
       dialog: false,
       bullets: "",
       attackError: "",
-      status: ""
+      status: "",
+      loading: false
     };
   },
   mounted() {
+    this.loading = true;
     this.$store
       .dispatch("getWorld", this.id)
       .then(result => {
         this.bunkerID = result.data.playerId;
+        this.loading = false;
       })
       .catch(err => {
         console.log(err);

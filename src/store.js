@@ -68,6 +68,9 @@ export default new Vuex.Store({
     },
     attack(context, data) {
       return api.attack(context, data);
+    },
+    getRaport(context, data) {
+      return api.raport(context, data);
     }
   }
 });
