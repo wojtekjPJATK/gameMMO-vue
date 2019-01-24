@@ -225,7 +225,6 @@ export default {
         })
         .then(result => {
           console.log(result);
-          console.log("ok");
           this.loading = false;
         })
         .catch(err => {
