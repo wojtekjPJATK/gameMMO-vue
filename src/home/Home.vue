@@ -8,14 +8,7 @@
 <script>
 export default {
   mounted() {
-    this.$store
-      .dispatch("getSession")
-      .then(result => {
-        console.log(result);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    this.$store.dispatch("getSession");
   }
 };
 </script>
