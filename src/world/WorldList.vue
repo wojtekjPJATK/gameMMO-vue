@@ -94,6 +94,7 @@ export default {
     },
 
     save() {
+      if (this.name == "") return;
       this.$store
         .dispatch("createWorld", this.name)
         .then(result => {
