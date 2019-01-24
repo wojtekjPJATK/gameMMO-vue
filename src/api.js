@@ -14,14 +14,16 @@ axios.interceptors.response.use(
     return response;
   },
   err => {
-    store
-      .dispatch("logout")
-      .then(result => {
-        router.push({ name: "signin" });
-      })
-      .catch(err => {
-        router.push({ name: "signin" });
-      });
+    if (err.response.status === 401) {
+      return store
+        .dispatch("logout")
+        .then(result => {
+          router.push({ name: "signin" });
+        })
+        .catch(err => {
+          router.push({ name: "signin" });
+        });
+    } else return Promise.reject(err);
   }
 );
 
@@ -169,7 +171,7 @@ export default {
   attack(context, data) {
     return new Promise((resolve, reject) => {
       axios
-        .post("/game/player/world/attack", data)
+        .post("/game/attack", data)
         .then(result => {
           resolve(result);
         })

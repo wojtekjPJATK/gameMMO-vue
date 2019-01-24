@@ -15,7 +15,7 @@
                 </v-flex>
               </v-layout>
             </v-container>
-            <small>{{ attackError }}</small>
+            <small class="red--text">{{ attackError }}</small>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -101,7 +101,6 @@ export default {
   },
   methods: {
     tileAction(tile) {
-      console.log(tile);
       if (!this.bunkerID) return;
       if (this.myCity(tile)) {
         this.$router.push({
@@ -110,14 +109,6 @@ export default {
         });
       } else {
         if (this.myTile(tile)) return;
-        if (tile.status == "free") {
-          this.$store.dispatch("attack", {
-            playerid: this.bunkerID,
-            squareid: tile.id,
-            bullets: 0
-          });
-          return;
-        }
         this.dialog = true;
         this.currentTile = tile;
       }
@@ -136,12 +127,10 @@ export default {
           bullets: parseInt(this.bullets)
         })
         .then(result => {
-          console.log(result);
           this.dialog = false;
         })
         .catch(err => {
           this.attackError = err.response.data.msg;
-          console.log(err);
         });
     }
   }
