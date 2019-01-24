@@ -4,3 +4,18 @@
     <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam, id praesentium. Aut, excepturi quam nihil beatae error exercitationem tempore in?</p>
   </v-layout>
 </template>
+
+<script>
+export default {
+  mounted() {
+    this.$store
+      .dispatch("getSession")
+      .then(result => {
+        console.log(result);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+};
+</script>

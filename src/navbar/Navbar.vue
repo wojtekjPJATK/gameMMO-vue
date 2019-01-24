@@ -12,9 +12,7 @@
         <v-btn raised to="/join" color="grey">Join</v-btn>
       </div>
       <div v-else>
-        <v-btn flat to="/">Home</v-btn>
         <v-btn flat to="/game">Game</v-btn>
-        <v-btn flat to="/profile">Profile</v-btn>
         <v-btn round outline @click="logout">
           <span>Logout</span>
           <v-icon right>exit_to_app</v-icon>

@@ -82,6 +82,22 @@ export default {
     });
   },
 
+  getSession(context) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get("session")
+        .then(result => {
+          resolve(result);
+        })
+        .catch(err => {
+          reject(err);
+          localStorage.removeItem("session");
+          context.commit("deleteSession");
+          axios.defaults.headers = {};
+        });
+    });
+  },
+
   getWorldList(context) {
     return new Promise((resolve, reject) => {
       axios

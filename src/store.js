@@ -55,6 +55,9 @@ export default new Vuex.Store({
     signin(context, data) {
       return api.signin(context, data);
     },
+    getSession(context) {
+      return api.getSession(context);
+    },
     getWorldList(context) {
       return api.getWorldList(context);
     },
