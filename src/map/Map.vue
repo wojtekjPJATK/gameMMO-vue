@@ -24,14 +24,14 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <v-dialog v-model="loading" hide-overlay persistent width="100">
-        <v-layout>
-          <v-flex class="text-xs-center">
-            <v-card color="black" width="100" height="100">
+      <v-dialog v-model="loading" hide-overlay persistent width="100" class="center">
+        <v-card color="black" width="100" height="100">
+          <v-layout justify-center align-center>
+            <div class="loader">
               <v-progress-circular :size="70" :width="7" color="white" indeterminate></v-progress-circular>
-            </v-card>
-          </v-flex>
-        </v-layout>
+            </div>
+          </v-layout>
+        </v-card>
       </v-dialog>
       <v-flex xs6 offset-xs3>
         <v-layout row wrap>
@@ -61,7 +61,9 @@
               @click="tileAction(tile)"
             ></v-card>
             <v-card v-else height="150px" width="100%" color="red" @click="tileAction(tile)">
-              <v-icon v-if="tile.status == 'City'" size="150px" color="black">fas fa-ring</v-icon>
+              <v-layout justify-center align-center>
+                <v-icon v-if="tile.status == 'City'" size="150px" color="black">fas fa-ring</v-icon>
+              </v-layout>
             </v-card>
           </v-flex>
         </v-layout>
@@ -148,4 +150,11 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.loader {
+  margin-top: 15px;
+}
+</style>
+
 
